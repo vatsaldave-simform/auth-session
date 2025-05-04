@@ -11,9 +11,8 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export const refreshTokenSchema = z.object({
-  refreshToken: z.string().min(1, "Refresh token is required"),
-});
+// Empty schema since we're now getting the refresh token from cookies
+export const refreshTokenSchema = z.object({});
 
 export const emailSchema = z.object({
   email: z.string().email("Invalid email format"),

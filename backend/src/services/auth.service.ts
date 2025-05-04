@@ -19,7 +19,9 @@ export class AuthService {
   /**
    * Register a new user
    */
-  async register(data: RegisterPayload): Promise<UserResponse> {
+  async register(
+    data: RegisterPayload
+  ): Promise<{ user: UserResponse; tokens: AuthTokens }> {
     // Check if user with email already exists
     const existingUser = await prisma.user.findUnique({
       where: { email: data.email },
@@ -41,10 +43,22 @@ export class AuthService {
       },
     });
 
+    // Generate tokens
+    const tokens = this.generateTokens(user.id);
+
+    // Update user with refresh token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { refreshToken: tokens.refreshToken },
+    });
+
     // Remove sensitive fields
     const { password, refreshToken, ...userWithoutSensitiveInfo } = user;
 
-    return userWithoutSensitiveInfo;
+    return {
+      user: userWithoutSensitiveInfo,
+      tokens,
+    };
   }
 
   /**

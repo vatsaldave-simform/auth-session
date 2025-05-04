@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import routes from "./api/routes";
 import { AppError } from "./utils/errors";
 import logger from "./utils/logger";
@@ -19,6 +20,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); // Add cookie parser middleware
 
 // Health check endpoint
 app.get("/health", (req, res) => {
