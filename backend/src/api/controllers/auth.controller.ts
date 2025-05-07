@@ -94,8 +94,8 @@ export class AuthController {
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: env.NODE_ENV === "production",
-        sameSite: "strict",
-        path: "/api/auth",
+        sameSite: "lax",
+        path: "/",
       });
 
       res.status(200).json({
