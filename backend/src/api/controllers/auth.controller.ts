@@ -144,9 +144,9 @@ export class AuthController {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === "production", // Only send over HTTPS in production
-      sameSite: "strict", // Protection against CSRF
+      sameSite: "lax",
       maxAge: maxAge,
-      path: "/api/auth", // Only send cookie to auth endpoints
+      path: "/",
     });
   }
 }
